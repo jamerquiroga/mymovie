@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,7 +58,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true, widthDp = 400, heightDp = 400)
 @Composable
 fun StateSample() {
-    var text by remember { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +67,8 @@ fun StateSample() {
     ) {
         TextField(
             value = text,
-            onValueChange = { text = it }
+            onValueChange = { text = it },
+            modifier = Modifier.fillMaxWidth()
         )
         Text(
             text = text,
