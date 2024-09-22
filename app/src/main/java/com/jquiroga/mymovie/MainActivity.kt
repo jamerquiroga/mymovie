@@ -46,10 +46,12 @@ class MainActivity : ComponentActivity() {
             MyMovieTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    var text by rememberSaveable { mutableStateOf("") }
+                    //getter = value
+                    //setter = onValueChange
+                    val (value , onValueChange) = rememberSaveable { mutableStateOf("") }
                     StateSample(
-                        value = text,
-                        onValueChange = { text = it }
+                        value = value,
+                        onValueChange = onValueChange
                     )
                 }
             }
