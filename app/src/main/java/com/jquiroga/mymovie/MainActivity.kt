@@ -30,6 +30,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -55,7 +57,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true, widthDp = 400, heightDp = 400)
 @Composable
 fun StateSample() {
-    val text = remember { mutableStateOf("") }
+    var text by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,20 +65,20 @@ fun StateSample() {
         verticalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = text.value,
-            onValueChange = { text.value = it }
+            value = text,
+            onValueChange = { text = it }
         )
         Text(
-            text = text.value,
+            text = text,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.LightGray)
                 .padding(8.dp)
         )
         Button(
-            onClick = { text.value = "" },
+            onClick = { text = "" },
             modifier = Modifier.fillMaxWidth(),
-            enabled = text.value.isNotEmpty()
+            enabled = text.isNotEmpty()
         ) {
             Text(text = "Clear")
         }
