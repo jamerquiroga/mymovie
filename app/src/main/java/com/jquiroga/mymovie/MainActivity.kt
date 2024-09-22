@@ -29,14 +29,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.jquiroga.mymovie.ui.theme.MyMovieTheme
@@ -48,17 +46,19 @@ class MainActivity : ComponentActivity() {
             MyMovieTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    StateSample()
+                    var text by rememberSaveable { mutableStateOf("") }
+                    StateSample(
+                        value = text,
+                        onValueChange = { text = it }
+                    )
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true, widthDp = 400, heightDp = 400)
 @Composable
-fun StateSample() {
-    var text by rememberSaveable { mutableStateOf("") }
+fun StateSample(value: String, onValueChange: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,21 +66,21 @@ fun StateSample() {
         verticalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = text,
-            onValueChange = { text = it },
+            value = value,
+            onValueChange = { onValueChange(it) },
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = text,
+            text = value,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.LightGray)
                 .padding(8.dp)
         )
         Button(
-            onClick = { text = "" },
+            onClick = { onValueChange("") },
             modifier = Modifier.fillMaxWidth(),
-            enabled = text.isNotEmpty()
+            enabled = value.isNotEmpty()
         ) {
             Text(text = "Clear")
         }
