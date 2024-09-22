@@ -16,20 +16,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -45,14 +45,45 @@ class MainActivity : ComponentActivity() {
             MyMovieTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    MediaList()
+                    StateSample()
                 }
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true, widthDp = 400, heightDp = 400)
+@Composable
+fun StateSample() {
+    val text = remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(64.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        TextField(
+            value = text.value,
+            onValueChange = { text.value = it }
+        )
+        Text(
+            text = text.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.LightGray)
+                .padding(8.dp)
+        )
+        Button(
+            onClick = { text.value = "" },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = text.value.isNotEmpty()
+        ) {
+            Text(text = "Clear")
+        }
+    }
+}
+
+//@Preview
 @Composable
 fun MediaList() {
         LazyVerticalGrid(
