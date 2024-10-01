@@ -1,6 +1,6 @@
-package com.jquiroga.mymovie
+package com.jquiroga.mymovie.model
 
-import com.jquiroga.mymovie.MediaItem.Type
+import com.jquiroga.mymovie.model.MediaItem.Type
 
 data class MediaItem(
     val id: Int,
