@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.navigation.NavHostController
 import com.jquiroga.mymovie.R
 import com.jquiroga.mymovie.model.MediaItem
 import com.jquiroga.mymovie.model.getMedia
@@ -24,24 +23,28 @@ import com.jquiroga.mymovie.ui.screens.common.Thumb
 
 //@Preview
 @Composable
-fun MediaList(navController: NavHostController, modifier: Modifier = Modifier) {
+fun MediaList(onMediaClick: (MediaItem) -> Unit, modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_xsmall)),
         columns = GridCells.Adaptive(dimensionResource(id = R.dimen.cell_min_weidth)),
         modifier = modifier
     ) {
         items(getMedia()) { item ->
-            MediaListItem(item, navController, Modifier.padding(dimensionResource(id = R.dimen.padding_xsmall)))
+            MediaListItem(
+                mediaItem = item,
+                onClick = { onMediaClick(item) },
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xsmall))
+            )
         }
     }
 }
 
 //@Preview(showBackground = true)
 @Composable
-fun MediaListItem(mediaItem: MediaItem, navController: NavHostController, modifier: Modifier = Modifier) {
+fun MediaListItem(mediaItem: MediaItem, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .clickable { navController.navigate("detail/${mediaItem.id}") }
+            .clickable(onClick = onClick)
     ) {
         Thumb(mediaItem = mediaItem)
         Title(mediaItem = mediaItem)
